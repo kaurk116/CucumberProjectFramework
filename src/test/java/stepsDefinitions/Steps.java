@@ -1,4 +1,5 @@
-package com.cucumber.stepsDefinitions;
+
+package stepsDefinitions;
 
 import io.cucumber.java.en.*;
 
@@ -16,7 +17,7 @@ public class Steps {
 	public void navigateToLoginPage() {
 	  
 		driver=new EdgeDriver();
-		driver.get("https://demo.nopcommerce.com");
+		 driver.get("https://demo.nopcommerce.com");
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.manage().window().maximize();
 		driver.findElement(By.xpath("//a[normalize-space()='Log in']")).click();
@@ -55,6 +56,7 @@ public class Steps {
 	}
 
 }
+
 
 
 

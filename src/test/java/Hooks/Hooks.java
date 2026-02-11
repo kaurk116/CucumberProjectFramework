@@ -25,12 +25,10 @@ public class Hooks {
     	driver=BaseClass.initilizeBrowser();
     	    	
     	p=BaseClass.getProperties();
-    	driver.get(p.getProperty("appURL"));
+    	driver.get(p.getProperty("URL"));
     	driver.manage().window().maximize();
     			
 	}
-		
-    
     @After
     public void tearDown() {
         		

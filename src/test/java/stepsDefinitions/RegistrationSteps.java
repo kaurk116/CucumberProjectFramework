@@ -2,6 +2,9 @@ package stepsDefinitions;
 
 import java.util.Map;
 
+import PageObjects.AccountLoginPage;
+import PageObjects.AccountRegistrationPage;
+import PageObjects.HomePage;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
@@ -10,16 +13,13 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pageObjects.AccountRegistrationPage;
-import pageObjects.HomePage;
-import pageObjects.LoginPage;
 
 
 public class RegistrationSteps {
 
 	 WebDriver driver;
      HomePage hp;
-     LoginPage lp;
+     AccountLoginPage lp;
      AccountRegistrationPage regpage;
      
 	@Given("the user navigates to Register Account page")

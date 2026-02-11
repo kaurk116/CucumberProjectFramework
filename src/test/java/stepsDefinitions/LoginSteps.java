@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import PageObjects.AccountLoginPage;
+import PageObjects.HomePage;
+import PageObjects.MyAccountPage;
+import Utilities.DataReader;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
@@ -11,16 +15,11 @@ import factory.BaseClass;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pageObjects.HomePage;
-import pageObjects.LoginPage;
-import pageObjects.MyAccountPage;
-import utilities.DataReader;
-import utilities.DataReader;
 
 public class LoginSteps {
      WebDriver driver;
      HomePage hp;
-     LoginPage lp;
+     AccountLoginPage lp;
      MyAccountPage macc;
   
      List<HashMap<String, String>> datamap; //Data driven
@@ -33,23 +32,23 @@ public class LoginSteps {
     	hp=new HomePage(BaseClass.getDriver());
     	
     	hp.clickMyAccount();
-    	hp.clickLogin();
+    	hp.ClickLogin();
                    
     }
 
- 
+
     @When("user enters email as {string} and password as {string}")
     public void user_enters_email_as_and_password_as(String email, String pwd) {
-    	BaseClass.getLogger().info("Entering email and password.. ");
+        BaseClass.getLogger().info("Entering email and password.. ");
     	
-    	lp=new LoginPage(BaseClass.getDriver());
+    	lp=new AccountLoginPage(BaseClass.getDriver());
        	lp.setEmail(email);
-        lp.setPassword(pwd);
+        lp.setPassword_field(pwd);
         }
 
-    @When("the user clicks on the Login button")
+    @When("clicks on the Login button")
     public void click_on_login_button() {
-        lp.clickLogin();
+        lp.clicklogin();
         BaseClass.getLogger().info("clicked on login button...");
     	
         
@@ -70,23 +69,30 @@ public class LoginSteps {
     public void check_user_navigates_to_my_account_page_by_passing_email_and_password_with_excel_data(String rows)
     {
         try {
-			datamap=DataReader.data(System.getProperty("user.dir")+"\\testData\\Opencart_LoginData.xlsx", "Sheet1");
+            datamap = DataReader.data(
+                    System.getProperty("user.dir") + "/testData/Opencart_LoginData.xlsx",
+                    "Sheet1"
+            );
 		} 
         catch (IOException e) 
         {
 			e.printStackTrace();
+            Assert.fail("Excel file not found or unable to read!");
 		}
 
         int index=Integer.parseInt(rows)-1;
+        if (datamap == null || datamap.size() == 0) {
+            Assert.fail("Excel data is empty or not loaded properly!");
+        }
         String email= datamap.get(index).get("username");
         String pwd= datamap.get(index).get("password");
         String exp_res= datamap.get(index).get("res");
 
-        lp=new LoginPage(BaseClass.getDriver());
+        lp=new AccountLoginPage(BaseClass.getDriver());
         lp.setEmail(email);
-        lp.setPassword(pwd);
+        lp.setPassword_field(pwd);
 
-        lp.clickLogin();
+        lp.clicklogin();
         macc=new MyAccountPage(BaseClass.getDriver());
         try
         {
@@ -97,7 +103,7 @@ public class LoginSteps {
                 if(targetpage==true)
                 {
                     MyAccountPage myaccpage=new MyAccountPage(BaseClass.getDriver());
-                    myaccpage.clickLogout();
+                    myaccpage.accountLogout();
                     Assert.assertTrue(true);
                 }
                 else
@@ -110,7 +116,7 @@ public class LoginSteps {
             {
                 if(targetpage==true)
                 {
-                    macc.clickLogout();
+                    macc.accountLogout();
                     Assert.assertTrue(false);
                 }
                 else
