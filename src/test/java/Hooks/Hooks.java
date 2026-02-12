@@ -18,22 +18,25 @@ public class Hooks {
 
 	 WebDriver driver;
 	 Properties p;
-     
-	@Before
-    public void setup() throws IOException
-    {
-    	driver=BaseClass.initilizeBrowser();
-    	    	
-    	p=BaseClass.getProperties();
-    	driver.get(p.getProperty("URL"));
-    	driver.manage().window().maximize();
-    			
-	}
+
+    @Before
+    public void setup() throws IOException {
+
+        driver = BaseClass.initilizeBrowser();
+
+        if (driver == null) {
+            throw new RuntimeException("Driver is NULL. RemoteWebDriver not created!");
+        }
+
+        p = BaseClass.getProperties();
+        driver.get(p.getProperty("URL"));
+        driver.manage().window().maximize();
+    }
     @After
     public void tearDown() {
-        		
-       driver.quit();
-       
+        if (driver != null) {
+            driver.quit();
+        }
     }
     
 

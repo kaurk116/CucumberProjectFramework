@@ -66,7 +66,7 @@ public class BaseClass {
                     return null;
             }
 
-            driver = new RemoteWebDriver(new URL("https://tutorialsninja.com/demo/"),capabilities);
+            driver=new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),capabilities);
             //driver=new RemoteWebDriver(new  URL(p.getProperty("URL")));
 
         }
